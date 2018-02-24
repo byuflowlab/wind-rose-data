@@ -4,10 +4,14 @@ from math import radians
 
 from matplotlib import pylab as plt
 
-def plot_windrose(direction, values, ticks, minor_ticks=0, tick_angle=-32., unit='', title='', show=True, save=False,
+def plot_windrose(direction, values, ticks, minor_ticks=0, tick_angle=-32., ticklabels=False, unit='', title='', show=True, save=False,
                   file_name='figure1.pdf', plot_radius=None):
     if plot_radius == None:
         plot_radius = max(ticks)
+
+    tick_labels = np.zeros(len(ticks))
+    for i in np.arange(0, len(ticks)):
+        tick_labels[i] = "%.2f" % ticks[i]
 
     direction += 270.
     for i in range(len(direction)):
@@ -23,8 +27,6 @@ def plot_windrose(direction, values, ticks, minor_ticks=0, tick_angle=-32., unit
     direction -= width / 2.
 
     ax = plt.subplot(111, polar=True)
-
-    tick_labels = list()
 
     minor_tick_distance = (ticks[1] - ticks[0]) / (minor_ticks + 1.)
 
@@ -42,7 +44,6 @@ def plot_windrose(direction, values, ticks, minor_ticks=0, tick_angle=-32., unit
                     ax.add_artist(circle)
 
     ticks.append(plot_radius)
-    tick_labels.append('')
 
     bars = ax.bar(direction, values, width=width, bottom=bottom, alpha=0.25, color='red', edgecolor=None)
 
@@ -121,14 +122,15 @@ def generate_windrose(primary_directions, primary_direction_weights, primary_dir
 if __name__ == "__main__":
 
     pd = np.array([270., 90.])
-    pdw = np.array([.7, 0.3])
+    pdw = np.array([.65, 0.35])
     pds = np.array([30., 30.])
     ndirs = 20
     dist = 'gauss'
 
     x, p = generate_windrose(pd, pdw, pds, ndirs, dist)
 
-    # np.savetxt('directional_windrose.txt', np.c_[x, p, np.ones(ndirs)*8.0], header='bidirectional gaussian windrose: deg, prob, speed')
+    np.savetxt('directional_windrose.txt', np.c_[x, np.ones(ndirs)*8.0, p], header='bidirectional gaussian windrose: deg, prob, speed')
+    ticks = [1./ndirs, 2./ndirs, 3./ndirs]
 
-    plot_windrose(x, p, ticks=[1./(2.*ndirs), 1./ndirs], show=True)
+    plot_windrose(x, p, ticks=ticks, tick_angle=90, ticklabels=True, show=True)
 

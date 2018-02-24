@@ -4,7 +4,7 @@ import numpy as np
 data = np.loadtxt("amalia_windrose_data.txt")
 directions = data[:, 0]
 speeds = data[:, 1]
-directionRes = 5.0
+directionRes = 10.0
 
 speedEdges = [0, 100]#np.arange(0.0,np.ceil(speeds.max())+1.0,1.0)
 directions[directions>(360-directionRes/2)] = directions[directions>(360-directionRes/2)] - 360.
@@ -31,8 +31,9 @@ for i in range(0, directionCenters.size):
     else:
         avespeeds[i] = 0
 # save average speeds with directions and probabilities to a file     
-np.savetxt("windrose_amalia_directionally_averaged_speeds.txt", np.c_[directionCenters, avespeeds, p[0]], header="direction, average_speed, probability")
-        
+# np.savetxt("windrose_amalia_directionally_averaged_speeds.txt", np.c_[directionCenters, avespeeds, p[0]], header="direction, average_speed, probability")
+np.savetxt("windrose_amalia_directionally_averaged_speeds_36dir.txt", np.c_[directionCenters, avespeeds, p[0]], header="direction, average_speed, probability")
+
 # plot probabilities windrose
 fig = plt.figure(figsize=(8,8)) 
 #plt.title('Wind Speed/Direction Frequency.', fontsize=13) 
