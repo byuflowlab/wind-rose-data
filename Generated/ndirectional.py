@@ -121,10 +121,10 @@ def generate_windrose(primary_directions, primary_direction_weights, primary_dir
 
 if __name__ == "__main__":
 
-    pd = np.array([270., 90.])
-    pdw = np.array([.65, 0.35])
-    pds = np.array([30., 30.])
-    ndirs = 20
+    pd = np.array([270., 90., 20.])
+    pdw = np.array([.45, 0.25, .30])
+    pds = np.array([30., 30., 30.])
+    ndirs = 100
     dist = 'gauss'
 
     x, p = generate_windrose(pd, pdw, pds, ndirs, dist)
